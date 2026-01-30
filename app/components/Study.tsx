@@ -5,7 +5,7 @@ import { Section } from "./Section";
 const items = [
   {
     title: "Education & training",
-    text: "Formal training in interior design and ongoing study in materials, lighting, and spatial planning.",
+    text: "Bachelor's degree from Lahore College for Women University. Formal training in interior design and ongoing study in materials, lighting, and spatial planning.",
   },
   {
     title: "How I work",

@@ -7,6 +7,7 @@ type WorkCardProps = {
   category?: string;
   imageSrc?: string;
   imageAlt?: string;
+  onClick?: () => void;
 };
 
 export function WorkCard({
@@ -14,12 +15,22 @@ export function WorkCard({
   category,
   imageSrc,
   imageAlt = title,
+  onClick,
 }: WorkCardProps) {
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-lg bg-bg-alt aspect-[4/3]"
+      role="button"
+      tabIndex={0}
+      className="group relative cursor-pointer overflow-hidden rounded-lg bg-bg-alt aspect-[4/3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-border to-bg-alt transition-transform duration-300 group-hover:scale-105" />
       {imageSrc ? (
