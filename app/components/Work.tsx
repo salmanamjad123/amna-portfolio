@@ -1,9 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Section } from "./Section";
 import { WorkCard } from "./WorkCard";
 import { WorkModal, type WorkProject } from "./WorkModal";
+
+const cardStagger = {
+  visible: { transition: { staggerChildren: 0.22, delayChildren: 0.28 } },
+  hidden: {},
+};
+const cardItem = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] as const } },
+};
 
 const U = (id: string, w = 800) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
@@ -74,25 +84,35 @@ export function Work() {
   );
 
   return (
-    <Section id="work" padding="py-6 md:py-16">
-      <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-medium text-text md:text-4xl">
+    <Section id="work" padding="py-14 md:py-20" className="section-divider">
+      <p className="font-sans text-sm uppercase tracking-[0.2em] text-text-muted">
+        Selected work
+      </p>
+      <h2 className="font-[family-name:var(--font-playfair)] mt-1 text-3xl font-medium text-text md:text-4xl">
         Work
       </h2>
       <p className="mt-3 text-text-muted max-w-2xl">
         A selection of recent projects — residential and commercial.
       </p>
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <motion.div
+        className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        variants={cardStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-20px", amount: 0.2 }}
+      >
         {projects.map((project) => (
-          <WorkCard
-            key={project.title}
-            title={project.title}
-            category={project.category}
-            imageSrc={project.imageSrc}
-            imageAlt={project.imageAlt}
-            onClick={() => setSelectedProject(project)}
-          />
+          <motion.div key={project.title} variants={cardItem}>
+            <WorkCard
+              title={project.title}
+              category={project.category}
+              imageSrc={project.imageSrc}
+              imageAlt={project.imageAlt}
+              onClick={() => setSelectedProject(project)}
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       <WorkModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

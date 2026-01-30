@@ -59,6 +59,11 @@ body {
   }
 }
 
+/* Subtle section divider — use .section-divider on section for a thin top line */
+.section-divider {
+  border-top: 1px solid var(--border);
+}
+
 /* Focus styles for accessibility */
 a:focus-visible,
 button:focus-visible {

@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 
 const defaultVariants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as const,
+      duration: 0.95,
+      ease: [0.22, 1, 0.36, 1] as const,
       when: "beforeChildren",
     },
   },
@@ -41,7 +41,7 @@ export function Section({
         className: `${padding} ${className}`.trim(),
         initial: "hidden",
         whileInView: "visible",
-        viewport: { once: true, margin: "-80px" },
+        viewport: { once: true, margin: "-60px", amount: 0.2 },
         variants: defaultVariants,
       };
 
