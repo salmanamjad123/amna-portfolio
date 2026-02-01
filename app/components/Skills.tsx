@@ -37,7 +37,7 @@ const softwareIcons: Record<string, React.ReactNode> = {
       <path d="M16 10c.5 0 1 .5 1 1.5s-.5 1.5-1 1.5" />
     </svg>
   ),
-  Inkscape: (
+  Enscape: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
       <path d="M12 2c0 4-2 8-2 10s1 4 2 4 2-2 2-4-2-6-2-10z" />
       <path d="M12 20c-2 0-4-2-4-6 0-2 1-4 2-6M12 8c1 2 2 4 2 6 0 4-2 6-4 6" />
@@ -110,7 +110,7 @@ const softwareSkills = [
   "3ds Max",
   "Corona Renderer",
   "Photoshop",
-  "Inkscape",
+  "Enscape",
   "Canva",
 ];
 
