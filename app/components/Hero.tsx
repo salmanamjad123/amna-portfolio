@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { HeroBackground } from "./HeroBackground";
+import { HeroParticles } from "./HeroParticles";
 
 const stagger = {
   visible: {
@@ -29,6 +30,7 @@ export function Hero() {
       className="relative min-h-[100vh] flex flex-col justify-center pt-24 pb-20 md:pt-28 md:pb-28 overflow-hidden"
     >
       <HeroBackground />
+      <HeroParticles />
       <div className="section-container relative z-10">
         <motion.div
           className="max-w-3xl"
