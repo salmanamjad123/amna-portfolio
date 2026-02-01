@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Section } from "./Section";
 import { WorkCard } from "./WorkCard";
@@ -15,66 +15,141 @@ const cardItem = {
   visible: { opacity: 1, y: 0, transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
-const U = (id: string, w = 800) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
+const R = (filename: string) => `/residential/${encodeURIComponent(filename)}`;
+const D = (filename: string) => `/duplexModel/${encodeURIComponent(filename)}`;
+const C = (filename: string) => `/cafe/${encodeURIComponent(filename)}`;
+const M = (filename: string) => `/model/${encodeURIComponent(filename)}`;
+const S = (filename: string) => `/stageSet/${encodeURIComponent(filename)}`;
 
-// 4 working interior images per project (Unsplash)
+// Residential — Modern Bedroom & Bath Suite (local images + PDF model)
+const residentialImages = [
+  "WhatsApp Image 2026-01-31 at 5.10.41 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.42 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.42 AM (2).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.42 AM (3).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.42 AM (4).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.42 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.43 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.10.43 AM.jpeg",
+];
+
+// Residential — Duplex Unit (local images + PDF model)
+const duplexImages = [
+  "WhatsApp Image 2026-01-31 at 5.12.08 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (2).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (3).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (4).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (5).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (6).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (7).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (8).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM (9).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.09 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.10 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.12.10 AM.jpeg",
+];
+
+// Commercial — Café (layout image + gallery images)
+const cafeImages = [
+  "WhatsApp Image 2026-01-31 at 5.17.29 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.17.29 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.17.30 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.17.31 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.17.31 AM (2).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.17.31 AM.jpeg",
+];
+
+// Commercial — Co-working & Lounge (office, lounge pods, cafe/bar)
+const modelImages = [
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (2).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (3).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (4).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (5).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (6).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (7).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (8).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM (9).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.47 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.48 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.44.48 AM.jpeg",
+];
+
+// Commercial — Stage & Set Design
+const stageSetImages = [
+  "WhatsApp Image 2026-01-31 at 5.47.40 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.47.40 AM.jpeg",
+  "WhatsApp Image 2026-01-31 at 5.47.41 AM (1).jpeg",
+  "WhatsApp Image 2026-01-31 at 5.47.41 AM.jpeg",
+];
+
+// Residential + Commercial projects (local images + PDF/layout)
 const projects: WorkProject[] = [
   {
-    title: "Residential — Living Room",
+    title: "Residential — Modern Bedroom & Bath Suite",
     category: "Residential",
-    imageSrc: U("1600607687939-ce8a6c25118c", 1200),
-    imageAlt: "Modern living room with natural light",
+    imageSrc: R(residentialImages[0]),
+    imageAlt: "Modern bedroom and bath interior",
     description:
-      "A light-filled living space with clean lines and warm materials. Designed for comfort and everyday living.",
-    images: [
-      { src: U("1600607687939-ce8a6c25118c"), alt: "Living room with sofa and natural light" },
-      { src: U("1600585154340-be6161a56a0c"), alt: "Interior with large windows" },
-      { src: U("1600566753190-17f0baa2a6c3"), alt: "Cozy living area with plants" },
-      { src: U("1600210492486-724fe5c67fb0"), alt: "Minimal living room" },
-    ],
+      "Contemporary residential suite with modern bathroom, bedrooms, and workspace. Wood paneling, marble vanity, textured wall panels, and a calm neutral palette with dark blue accents.",
+    pdfUrl: "/residential/sahi plan single-Model.pdf",
+    images: residentialImages.map((name, i) => ({
+      src: R(name),
+      alt: `Modern Bedroom & Bath Suite — view ${i + 1}`,
+    })),
+  },
+  {
+    title: "Residential — Duplex Unit",
+    category: "Residential",
+    imageSrc: D(duplexImages[0]),
+    imageAlt: "Duplex unit interior design",
+    description:
+      "Two-level residential duplex with full spatial planning, interior layouts, and material detailing. Designed for modern living with clear zoning and flow between levels.",
+    pdfUrl: "/duplexModel/sahi plan duplex-Model.pdf",
+    images: duplexImages.map((name, i) => ({
+      src: D(name),
+      alt: `Duplex Unit — view ${i + 1}`,
+    })),
   },
   {
     title: "Commercial — Café",
     category: "Commercial",
-    imageSrc: U("1554118811-1e0d58224f24", 1200),
-    imageAlt: "Interior of a cozy café",
+    imageSrc: C(cafeImages[0]),
+    imageAlt: "Café interior design",
     description:
-      "Warm, inviting café interior with a focus on atmosphere and flow for both guests and staff.",
-    images: [
-      { src: U("1554118811-1e0d58224f24"), alt: "Café interior with seating" },
-      { src: U("1442512595331-e89e73853f31"), alt: "Café with wooden tables" },
-      { src: U("1495474472287-4d71bcdd2085"), alt: "Coffee shop interior" },
-      { src: U("1517248135467-4c7edcad34c4"), alt: "Restaurant interior design" },
-    ],
+      "Commercial café design with spatial planning and layout. Interior renders and floor plan layout for seating, flow, and atmosphere.",
+    pdfUrl: "/cafe/Cafe layout.png",
+    images: cafeImages.map((name, i) => ({
+      src: C(name),
+      alt: `Café — view ${i + 1}`,
+    })),
   },
   {
-    title: "Residential — Bedroom",
-    category: "Residential",
-    imageSrc: U("1616594039964-ae9021a400a0", 1200),
-    imageAlt: "Serene bedroom with soft lighting",
-    description:
-      "A restful bedroom retreat with soft textures and a calm palette for better sleep and relaxation.",
-    images: [
-      { src: U("1616594039964-ae9021a400a0"), alt: "Bedroom with soft bedding" },
-      { src: U("1617325247661-675ab4b64dbb"), alt: "Minimal bedroom interior" },
-      { src: U("1600210492486-724fe5c67fb0"), alt: "Bedroom with natural light" },
-      { src: U("1600566753190-17f0baa2a6c3"), alt: "Cozy bedroom design" },
-    ],
-  },
-  {
-    title: "Office — Workspace",
+    title: "Commercial — Co-working & Lounge",
     category: "Commercial",
-    imageSrc: U("1497366216548-37526070297c", 1200),
-    imageAlt: "Modern office workspace",
+    imageSrc: M(modelImages[0]),
+    imageAlt: "Co-working and lounge interior",
     description:
-      "Functional and inspiring workspace design that balances collaboration areas with focused work zones.",
-    images: [
-      { src: U("1497366216548-37526070297c"), alt: "Open plan office" },
-      { src: U("1497366753455-68768de92193"), alt: "Office desk and seating" },
-      { src: U("1524758631624-e2822e304c36"), alt: "Modern workspace interior" },
-      { src: U("1497366753455-68768de92193"), alt: "Collaborative workspace" },
-    ],
+      "Contemporary co-working and lounge design with organic forms, pod seating, and integrated cafe. Open-plan office, futuristic lounge pods, and modern bar area with spatial flow and layered lighting.",
+    pdfUrl: "/model/layout done-Model.pdf1.pdf",
+    images: modelImages.map((name, i) => ({
+      src: M(name),
+      alt: `Co-working & Lounge — view ${i + 1}`,
+    })),
+  },
+  {
+    title: "Commercial — Stage & Set Design",
+    category: "Commercial",
+    imageSrc: S(stageSetImages[0]),
+    imageAlt: "Stage and set design",
+    description:
+      "Stage and set design for events, exhibitions, or performance. Spatial planning and visual concept with set plan and interior renders.",
+    pdfUrl: "/stageSet/set plan.pdf",
+    images: stageSetImages.map((name, i) => ({
+      src: S(name),
+      alt: `Stage & Set Design — view ${i + 1}`,
+    })),
   },
 ];
 
@@ -82,6 +157,41 @@ export function Work() {
   const [selectedProject, setSelectedProject] = useState<WorkProject | null>(
     null
   );
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const activeSlideRef = useRef(0);
+  activeSlideRef.current = activeSlide;
+
+  const handleSliderScroll = useCallback(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const slideEl = el.children[0] as HTMLElement;
+    const slideWidth = slideEl?.offsetWidth ?? el.offsetWidth;
+    const scrollLeft = el.scrollLeft;
+    const index = Math.min(
+      Math.round(scrollLeft / slideWidth),
+      projects.length - 1
+    );
+    setActiveSlide(Math.max(0, index));
+  }, []);
+
+  const goToSlide = useCallback((index: number) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const slideEl = el.children[0] as HTMLElement;
+    const slideWidth = slideEl?.offsetWidth ?? el.offsetWidth;
+    el.scrollTo({ left: index * slideWidth, behavior: "smooth" });
+    setActiveSlide(index);
+  }, []);
+
+  const AUTO_ADVANCE_MS = 6000;
+  useEffect(() => {
+    const id = setInterval(() => {
+      const next = (activeSlideRef.current + 1) % projects.length;
+      goToSlide(next);
+    }, AUTO_ADVANCE_MS);
+    return () => clearInterval(id);
+  }, [goToSlide]);
 
   return (
     <Section id="work" padding="py-14 md:py-20" className="section-divider">
@@ -94,8 +204,55 @@ export function Work() {
       <p className="mt-3 text-text-muted max-w-2xl">
         A selection of recent projects — residential and commercial.
       </p>
+
+      {/* Mobile: slider only — one slide at a time, pagination, no scrollbar */}
+      <div className="mt-10 md:hidden">
+        <div
+          ref={sliderRef}
+          className="work-slider flex overflow-x-auto overflow-y-hidden pb-4"
+          onScroll={handleSliderScroll}
+          style={{
+            scrollSnapType: "x mandatory",
+            scrollbarWidth: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {projects.map((project) => (
+            <div
+              key={project.title}
+              className="work-slider-slide min-w-full shrink-0 px-2"
+            >
+              <WorkCard
+                title={project.title}
+                category={project.category}
+                imageSrc={project.imageSrc}
+                imageAlt={project.imageAlt}
+                onClick={() => setSelectedProject(project)}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center gap-2 pt-2">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => goToSlide(i)}
+              className="h-2 w-2 rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              style={{
+                backgroundColor: i === activeSlide ? "var(--accent)" : "var(--border)",
+                transform: i === activeSlide ? "scale(1.25)" : "scale(1)",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === activeSlide ? "true" : undefined}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: grid */}
       <motion.div
-        className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        className="mt-10 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-4"
         variants={cardStagger}
         initial="hidden"
         whileInView="visible"
@@ -113,6 +270,7 @@ export function Work() {
           </motion.div>
         ))}
       </motion.div>
+
       <WorkModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

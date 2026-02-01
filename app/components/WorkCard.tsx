@@ -36,7 +36,7 @@ export function WorkCard({
       {imageSrc ? (
         <div
           className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ backgroundImage: `url(${imageSrc})` }}
+          style={{ backgroundImage: `url("${imageSrc}")` }}
         />
       ) : null}
       <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-6 bg-gradient-to-t from-black/60 to-transparent">
