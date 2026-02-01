@@ -109,3 +109,17 @@ button:focus-visible {
 .hero-particle-fall {
   animation: hero-particle-fall 18s linear infinite;
 }
+
+/* Navbar — resume icon subtle rotation */
+@keyframes resume-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.resume-icon-spin {
+  animation: resume-icon-spin 8s linear infinite;
+}
