@@ -19,7 +19,7 @@ export function Footer() {
         </p>
         <nav className="flex gap-6" aria-label="Footer links">
           <a
-            href="mailto:hello@amnashahid.com"
+            href="mailto:aminashahid2681@gmail.com"
             className="text-sm text-text-muted transition-colors duration-200 hover:text-accent focus-visible:text-accent focus-visible:outline-none"
           >
             Email

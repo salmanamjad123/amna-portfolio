@@ -34,7 +34,7 @@ export function LetsWorkTogether() {
           discuss your next project.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <a href="mailto:hello@amnashahid.com" className={primaryBtn}>
+          <a href="mailto:aminashahid2681@gmail.com" className={primaryBtn}>
             Email me
           </a>
           <Link href="#hero" className={secondaryBtn}>
