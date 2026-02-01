@@ -48,7 +48,7 @@ export function Hero() {
             variants={item}
             className="font-[family-name:var(--font-playfair)] text-4xl font-medium tracking-tight text-text sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Amna Shahid
+            Amina Shahid
           </motion.h1>
           <motion.p
             variants={item}

@@ -32,7 +32,7 @@ const fadeIn = {
   }),
 };
 
-const aboutContent = `I am an Interior Design graduate with hands-on experience in residential, commercial, and conceptual design projects. My academic and professional work reflects a strong command over spatial planning, technical drawings, and material sensibility. I am particularly interested in creating functional yet expressive interiors through thoughtful detailing, lighting, and user-oriented design. I am currently seeking an entry-level position where I can grow professionally and contribute creatively to real-world projects.`;
+const aboutContent = `I am an Interior Design graduate with hands on experience in residential, commercial, and conceptual design projects. My academic and professional work reflects a strong command over spatial planning, technical drawings, and material sensibility. I am particularly interested in creating functional yet expressive interiors through thoughtful detailing, lighting, and user oriented design. I am currently seeking an entry level position where I can grow professionally and contribute creatively to real world projects.`;
 
 export function About() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });

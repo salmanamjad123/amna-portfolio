@@ -15,7 +15,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Amna Shahid | Interior Designer",
+  title: "Amina Shahid | Interior Designer",
   description:
     "Interior designer crafting spaces that tell your story. Residential and commercial projects.",
 };

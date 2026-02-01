@@ -71,7 +71,7 @@ export function Navbar() {
           onClick={closeMenu}
           className="font-[family-name:var(--font-playfair)] text-lg font-medium text-text transition-colors duration-200 hover:text-accent focus-visible:text-accent focus-visible:outline-none"
         >
-          Amna Shahid
+          Amina Shahid
         </Link>
 
         {/* Desktop: inline links + resume */}

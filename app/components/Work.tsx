@@ -26,7 +26,7 @@ const P = (filename: string) => `/pdfprojects/${encodeURIComponent(filename)}`;
 type PdfProject = { title: string; pdfUrl: string };
 const pdfProjects: PdfProject[] = [
   { title: "Mood Board", pdfUrl: P("Mood Board.pdf") },
-  { title: "Corridor Redesign Study", pdfUrl: P("Corridor Redesign Study.pdf") },
+  { title: "Corridor Redesign Study", pdfUrl: P("Corridor-Redesign-Study.pdf") },
   { title: "Kitchen Design & Detailing", pdfUrl: P("Kitchen Design & Detailing.pdf") },
   { title: "Residential Planning Series", pdfUrl: P("Residential Planning Series.pdf") },
 ];
@@ -97,7 +97,7 @@ const stageSetImages = [
 // Residential + Commercial projects (local images + PDF/layout)
 const projects: WorkProject[] = [
   {
-    title: "Residential — Modern Bedroom & Bath Suite",
+    title: "Residential — Modern Bedroom ",
     category: "Residential",
     imageSrc: R(residentialImages[0]),
     imageAlt: "Modern bedroom and bath interior",

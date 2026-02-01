@@ -12,10 +12,10 @@ export function Footer() {
     >
       <div className="section-container flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="font-[family-name:var(--font-playfair)] text-lg font-medium text-text">
-          Amna Shahid
+        Amina Shahid
         </p>
         <p className="text-sm text-text-muted">
-          © {year} Amna Shahid. All rights reserved.
+          © {year} Amina Shahid. All rights reserved.
         </p>
         <nav className="flex gap-6" aria-label="Footer links">
           <a
